@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lowell Cities Golf Tournament Records</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        .controls { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        input, select, button { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        button { cursor: pointer; background: #fff; transition: background 0.2s; }
+        button:hover { background: #eee; }
+        .btn-export { background-color: #27ae60; color: white; border: none; }
+        .btn-export:hover { background-color: #219150; }
+        #resultCount { font-weight: bold; margin-bottom: 15px; color: #2980b9; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #2c3e50; color: white; cursor: pointer; user-select: none; position: relative; }
+        th:hover { background-color: #34495e; }
+        th.sort-asc::after { content: " ▲"; font-size: 10px; }
+        th.sort-desc::after { content: " ▼"; font-size: 10px; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .no-results { padding: 30px; text-align: center; color: #7f8c8d; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>Lowell Cities Golf Champions</h1>
+    
+    <div class="controls">
+        <input type="text" id="yearSearch" placeholder="Search Year...">
+        <input type="text" id="nameSearch" placeholder="Search Champion Name...">
+        <select id="teamSearch">
+            <option value="">All Team Champions</option>
+        </select>
+        <button onclick="clearFilters()">Clear Filters</button>
+        <button class="btn-export" onclick="exportToCSV()">Export to CSV</button>
+    </div>
+
+    <div id="resultCount">Showing 0 results</div>
+
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th onclick="handleSort('year')" id="th-year">Year</th>
+                <th onclick="handleSort('name')" id="th-name">Champion Name</th>
+                <th onclick="handleSort('club')" id="th-club">Club</th>
+                <th onclick="handleSort('score')" id="th-score">Score</th>
+                <th onclick="handleSort('team')" id="th-team">Team Champion</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(err => console.log("SW error:", err));
+        }
+    </script>
+</body>
+</html>
